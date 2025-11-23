@@ -296,11 +296,10 @@ El pot total es reparteix de forma **proporcional** entre tots els guanyadors:
 
 **Exemple amb guanyadors:**
 - Pot total: 10 EGLD
-- Guanyador A: 2 EGLD en apostes guanyadores
-- Guanyador B: 3 EGLD en apostes guanyadores
-- Total guanyador: 5 EGLD
-- Guanyador A rep: (2/5) * 10 = 4 EGLD
-- Guanyador B rep: (3/5) * 10 = 6 EGLD
+- Guanyadors A i B
+- Total per guanyador: 10/2= 5 EGLD
+- Guanyador A rep: 5 EGLD
+- Guanyador B rep: 5 EGLD
 
 ### Cas 2: No hi ha Guanyadors
 
