@@ -1,0 +1,253 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.87.0",
+            "commitHash": "17067e9ac6d7ecb70e50f92c1944e545188d2359",
+            "commitDate": "2025-05-09",
+            "channel": "Stable",
+            "short": "rustc 1.87.0 (17067e9ac 2025-05-09)"
+        },
+        "contractCrate": {
+            "name": "la-porra",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.58.0"
+        }
+    },
+    "docs": [
+        "Contract d'apostes amb data límit fixa.",
+        "",
+        "- Accepta apostes fins a una data límit.",
+        "- Cada participant pot fer fins a 10 apostes, però cada aposta ha de ser única",
+        "  (no es pot repetir la mateixa combinació de resultat).",
+        "- Desa el total recaptat i les apostes de cada participant.",
+        "- Un cop passada la data límit, l'owner crida `resolveBets` indicant",
+        "  el resultat guanyador. Si hi ha guanyadors, el contracte reparteix el total recaptat",
+        "  proporcionalment entre els que han encertat. Si no hi ha guanyadors, tot el pot",
+        "  s'envia a l'owner."
+    ],
+    "name": "LAPorra",
+    "constructor": {
+        "docs": [
+            "Inicialització del contracte.",
+            "",
+            "`deadline_timestamp` és un timestamp UNIX (segons) que representa la data límit",
+            "per fer apostes (per exemple el 25/12/2025 a una hora concreta).",
+            "`bet_price` és el cost fix d'una aposta i només el pot modificar l'owner."
+        ],
+        "inputs": [
+            {
+                "name": "deadline_timestamp",
+                "type": "u64"
+            },
+            {
+                "name": "bet_price",
+                "type": "BigUint"
+            }
+        ],
+        "outputs": []
+    },
+    "upgradeConstructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "docs": [
+                "Owner del contracte (qui pot resoldre les apostes)."
+            ],
+            "name": "getOwner",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Data límit per acceptar apostes."
+            ],
+            "name": "getDeadline",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Total recaptat en el pot."
+            ],
+            "name": "getTotalPot",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Preu fix de cada aposta."
+            ],
+            "name": "getBetPrice",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Resultat guanyador (gols local, gols visitant), si ja s'ha resolt."
+            ],
+            "name": "getWinningResult",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "tuple<u8,u8>"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Indica si el contracte ja ha estat resolt."
+            ],
+            "name": "isResolved",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Apostes d'un participant concret (fins a 10)."
+            ],
+            "name": "getBets",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<Bet>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Retorna l'identificador (adreça) del contracte desplegat."
+            ],
+            "name": "getContractAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Fer una aposta indicant un resultat (gols local - gols visitant) i enviant EGLD.",
+                "",
+                "- Només es pot cridar abans de la data límit.",
+                "- Cada adreça pot tenir fins a 10 apostes.",
+                "- Cada aposta ha de ser única (no es pot repetir la mateixa combinació de resultat)."
+            ],
+            "name": "placeBet",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "home_score",
+                    "type": "u8"
+                },
+                {
+                    "name": "away_score",
+                    "type": "u8"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Resolució de les apostes un cop passada la data límit.",
+                "",
+                "- Només la pot cridar l'owner.",
+                "- Només es pot cridar un cop.",
+                "- `home_score` i `away_score` són el resultat correcte.",
+                "- Si hi ha guanyadors, el pot es reparteix proporcionalment a l'import apostat",
+                "  entre tots els que han encertat.",
+                "- Si no hi ha guanyadors, tot el pot s'envia a l'owner."
+            ],
+            "name": "resolveBets",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "home_score",
+                    "type": "u8"
+                },
+                {
+                    "name": "away_score",
+                    "type": "u8"
+                }
+            ],
+            "outputs": []
+        }
+    ],
+    "esdtAttributes": [],
+    "hasCallback": false,
+    "types": {
+        "Bet": {
+            "type": "struct",
+            "docs": [
+                "Informació d'una aposta."
+            ],
+            "fields": [
+                {
+                    "docs": [
+                        "Gols de l'equip local."
+                    ],
+                    "name": "home_score",
+                    "type": "u8"
+                },
+                {
+                    "docs": [
+                        "Gols de l'equip visitant."
+                    ],
+                    "name": "away_score",
+                    "type": "u8"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "claimed",
+                    "type": "bool"
+                }
+            ]
+        }
+    }
+}
