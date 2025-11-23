@@ -290,7 +290,7 @@ El pot total es reparteix de forma **proporcional** entre tots els guanyadors:
 1. Es calcula el total apostat pels guanyadors (`total_winning_amount`)
 2. Per cada aposta guanyadora, es calcula la seva quota:
    ```
-   quota = (aposta_individual / total_winning_amount) * pot_total
+   quota = pot_total / nombre_de_guanyadors
    ```
 3. Cada guanyador rep la suma de les quotes de totes les seves apostes guanyadores
 
