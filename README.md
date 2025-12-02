@@ -332,7 +332,7 @@ Si cap participant ha encertat el resultat guanyador:
 
 ## 📝 Llicència
 
-Untitled © 1999 by Jordi Valldepérez is licensed under Creative Commons Attribution-NonCommercial 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/ 
+LAPorra © 2025 by Jordi Valldepérez is licensed under Creative Commons Attribution-NonCommercial 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/ 
 
 Aquest projecte és un exemple educatiu. Revisa la llicència abans d'utilitzar-lo en producció.
 
